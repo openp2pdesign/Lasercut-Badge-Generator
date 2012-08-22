@@ -5,6 +5,9 @@
 
 import processing.pdf.*;
 
+Boolean newPage = true;
+Boolean newLine = true;
+
 // List of badges
 Badge[] allBadges = new Badge[500];
 
@@ -42,10 +45,10 @@ void draw() {
     println(posx);
     println(posy);
     allBadges[index].display();
-    
-    index = index + 1;
+    // Update the position of the cursor
+    posx = posx + allBadges[index].badgedimensionx;
   }
-  // Save the .pdf file
+  // Save the .pdf file and exit
   endRecord();
   exit();
 }
@@ -103,9 +106,6 @@ class Badge {
     badgedimensiony = (textheight*3)+10;
     println("Badge Y size: "+badgedimensiony);
     
-    // Update the position of the cursor
-    posx = posx + badgedimensionx;
-    
     // to check if the position on the line is < 900
     // to check that every line is < 600
     // otherwise create a new page in the pdf and start from zero again
@@ -121,7 +121,6 @@ class Badge {
       text(fullprofile,posx+5,posy+textheight);
     }
   }
-  
   
   
 }
