@@ -106,15 +106,19 @@ class Badge {
     badgedimensiony = (textheight*3)+10;
     println("Badge Y size: "+badgedimensiony);
     
+    if ((badgedimensionx+posx) > 900) {
+      println("Out of sight");
+      newLine = true;
+    }
     // to check if the position on the line is < 900
     // to check that every line is < 600
     // otherwise create a new page in the pdf and start from zero again
   
     noFill();
-    rect(posx,posy,posx+badgedimensionx,posy+badgedimensiony);
+    rect(posx,posy,badgedimensionx,posy+badgedimensiony);
     
    // Check if we have a role to visualize, and then visualize name, surname and role (if any)
-    if (role == "None") {
+    if (role.equals("NONE") == true) {
       text(profilenorole,posx+5,posy+textheight);
     } else {
       textLeading(16);
