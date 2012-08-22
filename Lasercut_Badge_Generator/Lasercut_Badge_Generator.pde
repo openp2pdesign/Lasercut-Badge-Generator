@@ -7,7 +7,7 @@ import processing.pdf.*;
 
 PGraphics pdf;
 
-Boolean newPage = true;
+Boolean newPage = false;
 
 // List of badges
 Badge[] allBadges = new Badge[500];
@@ -23,12 +23,8 @@ float posy = 0;
 
 void setup() {
   // The display, 1 px = 1mm in the real world (the .pdf file must be scaled later in Inkscape)
-  size(900,600);
+  size(900,600,PDF, "test.pdf");
   background(255);
-  // Start "recording" the display to a .pdf file
-  pdf = (PGraphicsPDF)beginRecord(PDF, "stencils.pdf");
-  beginRecord(pdf);
-  
   f = createFont("Blackout-TwoAM",16,true);
   lines = loadStrings("names.csv");
 }
@@ -40,6 +36,7 @@ void draw() {
   // Read the names in the .csv file and display them
   for (int index = 0; index < lines.length; index = index+1) {
     if (newPage == true) {
+      // Record the display to a .pdf file
       PGraphicsPDF pdf = (PGraphicsPDF) g;
       pdf.nextPage();
       newPage = false;
@@ -57,8 +54,6 @@ void draw() {
     posx = posx + allBadges[index].badgedimensionx;
     
   }
-  // Save the .pdf file and exit
-  endRecord();
   exit();
 
 }
