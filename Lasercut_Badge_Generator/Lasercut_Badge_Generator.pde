@@ -1,7 +1,15 @@
+// BADGE_GENERATOR v0.1
+// LICENSE: GPL v.3
+// AUTHOR: Massimo Menichinelli
+// WEB: http://www.openp2pdesign.org
+
+
 import processing.pdf.*;
 
+// List of badges
 Badge[] allBadges = new Badge[500];
 
+// Variables for reading the names from the .csv file
 String[] lines;
 int index = 0;
 
