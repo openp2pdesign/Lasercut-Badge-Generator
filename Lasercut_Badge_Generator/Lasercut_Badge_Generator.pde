@@ -1,6 +1,9 @@
 import processing.pdf.*;
 
-Badge[] allBadges = new Badge[500]; 
+Badge[] allBadges = new Badge[500];
+
+String[] lines;
+int index = 0;
 
 PFont f;
 Badge myBadge;
@@ -10,7 +13,8 @@ void setup() {
   background(255);
   beginRecord(PDF, "stencils.pdf");
   f = createFont("Blackout-TwoAM",16,true);
-  myBadge = new Badge("Massimo Mario","Menichinelli", "OKFestCrew");
+  myBadge = new Badge("Massimo","Menichinelli", "OKFestCrew");
+  lines = loadStrings("names.csv");
 }
 
 void draw() {
@@ -21,8 +25,16 @@ void draw() {
   println(myBadge.surname);
   myBadge.display();
   endRecord();
-  //exit();
-
+  
+  // Read the names in the .csv file
+  if (index < lines.length) {
+    String[] pieces = split(lines[index], ',');
+    allBadges[index] = new Badge(pieces[0], pieces[1], pieces[2]);
+    println("Name"+allBadges[index].name);
+    allBadges[index].display();
+    index = index + 1;
+  }
+  
 }
 
 
@@ -70,15 +82,16 @@ class Badge {
     role_size = textWidth(role);
     println("Role size: "+role_size);
     
+    // Checking the X dimension of the badge
     badgedimensionx = max(name_size, surname_size, role_size);
     badgedimensionx = badgedimensionx+10;
     println("Badge X size: "+badgedimensionx);
     
+    // Checking the Y dimension of the badge
     textheight = textAscent()+textDescent();
     badgedimensiony = (textheight*3)+10;
     println("Badge Y size: "+badgedimensiony);
     
-    // which one is the biggest, then we have the size + 5 sx + 5 dx of a badge cutout
     // to check if the position on the line is < 900
     // to check that every line is < 600
     // otherwise create a new page in the pdf and start from zero again
