@@ -47,6 +47,7 @@ void draw() {
     allBadges[index].display();
     // Update the position of the cursor
     posx = posx + allBadges[index].badgedimensionx;
+    newLine = false;
   }
   // Save the .pdf file and exit
   endRecord();
@@ -109,13 +110,15 @@ class Badge {
     if ((badgedimensionx+posx) > 900) {
       println("Out of sight");
       newLine = true;
+      posy = posy + badgedimensiony;
+      posx = 0;
     }
     // to check if the position on the line is < 900
     // to check that every line is < 600
     // otherwise create a new page in the pdf and start from zero again
   
     noFill();
-    rect(posx,posy,badgedimensionx,posy+badgedimensiony);
+    rect(posx,posy,badgedimensionx,badgedimensiony);
     
    // Check if we have a role to visualize, and then visualize name, surname and role (if any)
     if (role.equals("NONE") == true) {
