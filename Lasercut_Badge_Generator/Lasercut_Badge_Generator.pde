@@ -5,8 +5,9 @@
 
 import processing.pdf.*;
 
+PGraphics pdf;
+
 Boolean newPage = true;
-Boolean newLine = true;
 
 // List of badges
 Badge[] allBadges = new Badge[500];
@@ -25,7 +26,9 @@ void setup() {
   size(900,600);
   background(255);
   // Start "recording" the display to a .pdf file
-  beginRecord(PDF, "stencils.pdf");
+  pdf = (PGraphicsPDF)beginRecord(PDF, "stencils.pdf");
+  beginRecord(pdf);
+  
   f = createFont("Blackout-TwoAM",16,true);
   lines = loadStrings("names.csv");
 }
@@ -36,6 +39,11 @@ void draw() {
   
   // Read the names in the .csv file and display them
   for (int index = 0; index < lines.length; index = index+1) {
+    if (newPage == true) {
+      PGraphicsPDF pdf = (PGraphicsPDF) g;
+      pdf.nextPage();
+      newPage = false;
+    }
     String[] pieces = split(lines[index], ',');
     allBadges[index] = new Badge(pieces[0], pieces[1], pieces[2]);
     println("=========================================");
@@ -47,11 +55,12 @@ void draw() {
     allBadges[index].display();
     // Update the position of the cursor
     posx = posx + allBadges[index].badgedimensionx;
-    newLine = false;
+    
   }
   // Save the .pdf file and exit
   endRecord();
   exit();
+
 }
 
 // Class of the badges
@@ -107,13 +116,22 @@ class Badge {
     badgedimensiony = (textheight*3)+10;
     println("Badge Y size: "+badgedimensiony);
     
+    // Check if the X position of the badge is < 900 i.e. still on the plate
     if ((badgedimensionx+posx) > 900) {
-      println("Out of sight");
-      newLine = true;
+      println("Going to another line...");
       posy = posy + badgedimensiony;
       posx = 0;
     }
-    // to check if the position on the line is < 900
+    
+    // Ccheck if the Y position of the badge is < 600 i.e. still on the plate
+    if ((badgedimensiony+posy) > 600) {
+      println("Going to another page...");
+      posx = 0;
+      posy = 0;
+      // Create a new page in the .pdf file
+      newPage = true;
+    } else {newPage = false;}
+    
     // to check that every line is < 600
     // otherwise create a new page in the pdf and start from zero again
   
