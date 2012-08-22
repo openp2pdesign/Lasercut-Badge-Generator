@@ -3,7 +3,6 @@
 // AUTHOR: Massimo Menichinelli
 // WEB: http://www.openp2pdesign.org
 
-
 import processing.pdf.*;
 
 // List of badges
@@ -12,14 +11,17 @@ Badge[] allBadges = new Badge[500];
 // Variable for reading the names from the .csv file
 String[] lines;
 
-
 // Variable for drawing the text
 PFont f;
 
+float posx = 0;
+float posy = 0;
 
 void setup() {
+  // The display, 1 px = 1mm in the real world (the .pdf file must be scaled later in Inkscape)
   size(900,600);
   background(255);
+  // Start "recording" the display to a .pdf file
   beginRecord(PDF, "stencils.pdf");
   f = createFont("Blackout-TwoAM",16,true);
   lines = loadStrings("names.csv");
@@ -33,18 +35,24 @@ void draw() {
   for (int index = 0; index < lines.length; index = index+1) {
     String[] pieces = split(lines[index], ',');
     allBadges[index] = new Badge(pieces[0], pieces[1], pieces[2]);
-    println("Name"+allBadges[index].name);
+    println("=========================================");
+    println("Name: "+allBadges[index].name);
+    println("Surname: "+allBadges[index].surname);
+    println("Role: "+allBadges[index].role);
+    println(posx);
+    println(posy);
     allBadges[index].display();
+    
     index = index + 1;
   }
+  // Save the .pdf file
   endRecord();
+  exit();
 }
 
 // Class of the badges
 class Badge {
   // Global variables
-  float posx = 0;
-  float posy = 0;
   String name = "NAME";
   String surname = "SURNAME";
   String role = "ROLE";
@@ -94,6 +102,9 @@ class Badge {
     textheight = textAscent()+textDescent();
     badgedimensiony = (textheight*3)+10;
     println("Badge Y size: "+badgedimensiony);
+    
+    // Update the position of the cursor
+    posx = posx + badgedimensionx;
     
     // to check if the position on the line is < 900
     // to check that every line is < 600
