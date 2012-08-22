@@ -9,43 +9,38 @@ import processing.pdf.*;
 // List of badges
 Badge[] allBadges = new Badge[500];
 
-// Variables for reading the names from the .csv file
+// Variable for reading the names from the .csv file
 String[] lines;
-int index = 0;
 
+
+// Variable for drawing the text
 PFont f;
-Badge myBadge;
+
 
 void setup() {
   size(900,600);
   background(255);
   beginRecord(PDF, "stencils.pdf");
   f = createFont("Blackout-TwoAM",16,true);
-  myBadge = new Badge("Massimo","Menichinelli", "OKFestCrew");
   lines = loadStrings("names.csv");
 }
 
 void draw() {
-  
   textFont(f,16); 
   fill(0); 
-  println(myBadge.name);
-  println(myBadge.surname);
-  myBadge.display();
-  endRecord();
   
-  // Read the names in the .csv file
-  if (index < lines.length) {
+  // Read the names in the .csv file and display them
+  for (int index = 0; index < lines.length; index = index+1) {
     String[] pieces = split(lines[index], ',');
     allBadges[index] = new Badge(pieces[0], pieces[1], pieces[2]);
     println("Name"+allBadges[index].name);
     allBadges[index].display();
     index = index + 1;
   }
-  
+  endRecord();
 }
 
-
+// Class of the badges
 class Badge {
   // Global variables
   float posx = 0;
@@ -71,7 +66,7 @@ class Badge {
  
   // Functions
   
-  // Draw the tags
+  // Draw the badges
   void display() {
     
     // Convert all " " into "_"
@@ -109,10 +104,10 @@ class Badge {
     
    // Check if we have a role to visualize, and then visualize name, surname and role (if any)
     if (role == "None") {
-      text(profilenorole,posx+5,posy+textheight+5);
+      text(profilenorole,posx+5,posy+textheight);
     } else {
       textLeading(16);
-      text(fullprofile,posx+5,posy+textheight+5);
+      text(fullprofile,posx+5,posy+textheight);
     }
   }
   
