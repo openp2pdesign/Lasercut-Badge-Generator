@@ -112,7 +112,7 @@ class Badge {
     println("Badge Y size: "+badgedimensiony);
     
     // Check if the X position of the badge is < 900 i.e. still on the plate
-    if ((badgedimensionx+posx) > 900) {
+    if ((badgedimensionx+posx) > 860) {
       println("Going to another line...");
       posy = posy + badgedimensiony;
       posx = 0;
