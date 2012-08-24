@@ -64,6 +64,7 @@ class Badge {
   String name = "NAME";
   String surname = "SURNAME";
   String role = "ROLE";
+  String hashtag = "#OKFest";
   String fullprofile;
   String profilenorole;
   float badgedimensionx = 0;
@@ -72,6 +73,8 @@ class Badge {
   float name_size = 0;
   float surname_size = 0;
   float role_size = 0;
+  float hashtag_size = 0;
+  float[] maxarray = new float[4];
 
   // Constructor
   Badge(String _name, String _surname, String _role) {
@@ -90,8 +93,8 @@ class Badge {
     surname = surname.replaceAll(" ", "_");
     role = role.replaceAll(" ", "_");
     
-    profilenorole = name+"\n"+surname;
-    fullprofile = name+"\n"+surname+"\n"+role;
+    profilenorole = hashtag+"\n"+name+"\n"+surname;
+    fullprofile = hashtag+"\n"+name+"\n"+surname+"\n"+role;
     
     // Check the dimension of the longest element, be it name or surname o role
     name_size = textWidth(name);
@@ -100,15 +103,22 @@ class Badge {
     println("Surname size: "+surname_size);
     role_size = textWidth(role);
     println("Role size: "+role_size);
+    hashtag_size = textWidth(hashtag);
+    println("Hashtag size: "+hashtag_size);
+    
+    maxarray[0]=name_size;
+    maxarray[1]=surname_size;
+    maxarray[2]=role_size;
+    maxarray[3]=hashtag_size;
     
     // Checking the X dimension of the badge
-    badgedimensionx = max(name_size, surname_size, role_size);
+    badgedimensionx = max(maxarray);
     badgedimensionx = badgedimensionx+10;
     println("Badge X size: "+badgedimensionx);
     
     // Checking the Y dimension of the badge
     textheight = textAscent()+textDescent();
-    badgedimensiony = (textheight*3)+10;
+    badgedimensiony = (textheight*4)+10;
     println("Badge Y size: "+badgedimensiony);
     
     // Check if the X position of the badge is < 900 i.e. still on the plate
