@@ -7,10 +7,8 @@ import processing.pdf.*;
 
 PGraphics pdf;
 
-Boolean newPage = false;
-
 // List of badges
-Badge[] allBadges = new Badge[500];
+Badge[] allBadges = new Badge[700];
 
 // Variable for reading the names from the .csv file
 String[] lines;
@@ -35,12 +33,6 @@ void draw() {
   
   // Read the names in the .csv file and display them
   for (int index = 0; index < lines.length; index = index+1) {
-    if (newPage == true) {
-      // Record the display to a .pdf file
-      PGraphicsPDF pdf = (PGraphicsPDF) g;
-      pdf.nextPage();
-      newPage = false;
-    }
     String[] pieces = split(lines[index], ',');
     allBadges[index] = new Badge(pieces[0], pieces[1], pieces[2]);
     println("=========================================");
@@ -54,6 +46,7 @@ void draw() {
     posx = posx + allBadges[index].badgedimensionx;
     
   }
+   println("Done.");
   exit();
 
 }
@@ -118,30 +111,37 @@ class Badge {
     
     // Checking the Y dimension of the badge
     textheight = textAscent()+textDescent();
-    badgedimensiony = (textheight*4)+10;
+    
+    if(role.equals("") == true) {
+       badgedimensiony = (textheight*3);
+    } else {
+       badgedimensiony = (textheight*4);
+    }
+    
     println("Badge Y size: "+badgedimensiony);
     
     // Check if the X position of the badge is < 900 i.e. still on the plate
-    if ((badgedimensionx+posx) > 860) {
+    if ((badgedimensionx+posx) > 900) {
       println("Going to another line...");
       posy = posy + badgedimensiony;
       posx = 0;
     }
     
-    // Ccheck if the Y position of the badge is < 600 i.e. still on the plate
-    if ((badgedimensiony+posy) > 600) {
+    // Check if the Y position of the badge is < 600 i.e. still on the plate
+    // otherwise create a new page in the pdf and start from zero again
+    if ((badgedimensiony+posy) > 580) {
       println("Going to another page...");
+       // Create a new page in the .pdf file
+      PGraphicsPDF pdf = (PGraphicsPDF) g;
+      pdf.nextPage();
       posx = 0;
       posy = 0;
-      // Create a new page in the .pdf file
-      newPage = true;
-    } else {newPage = false;}
-    
-    // to check that every line is < 600
-    // otherwise create a new page in the pdf and start from zero again
+    }
   
     noFill();
-    rect(posx,posy,badgedimensionx,badgedimensiony);
+    
+    // Uncomment the following line in order to have a box around each tag, for debuggin purposes
+    //rect(posx,posy,badgedimensionx,badgedimensiony);
     
    // Check if we have a role to visualize, and then visualize name, surname and role (if any)
     if (role.equals("NONE") == true) {
