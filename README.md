@@ -9,6 +9,6 @@ Create a names.csv file with name,surname,role in the event of each participant 
 Open the badges.pdf in your favorite vector drawing program (for example: [Inkscape](http://www.inkscape.org)), scale the drawing to 900x600 mm, that is by 283%. Now it will have the dimension of the full plate of the laser cutter.
 
 ## License
-Realeased under GPL v.3 license
+Realeased under [GPL v.3 license](http://www.gnu.org/copyleft/gpl.html)
 
 <a href="http://mediafactory.aalto.fi/" style=" border-color:transparent!important;text-decoration:none!important;"><img src="http://mediafactory.aalto.fi/wp-content/uploads/2011/03/withlove_harm.gif" alt="With love from Aalto Media Factory" style="border-color:transparent!important;width:180px!important;height:50px!important;" /></a>
