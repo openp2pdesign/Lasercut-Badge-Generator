@@ -21,7 +21,7 @@ float posy = 0;
 
 void setup() {
   // The display, 1 px = 1mm in the real world (the .pdf file must be scaled later in Inkscape)
-  size(900,600,PDF, "stencils.pdf");
+  size(900,600,PDF, "badges.pdf");
   background(255);
   f = createFont("Blackout-TwoAM",16,true);
   lines = loadStrings("names.csv");
