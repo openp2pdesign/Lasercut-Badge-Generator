@@ -57,6 +57,7 @@ class Badge {
   String name = "NAME";
   String surname = "SURNAME";
   String role = "ROLE";
+  // Change this to the hashtag of your conference.
   String hashtag = "#OKFest";
   String fullprofile;
   String profilenorole;
